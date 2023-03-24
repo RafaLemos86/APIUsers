@@ -3,6 +3,8 @@ var bcrypt = require("bcrypt")
 
 
 class User {
+
+    // cadastrando usuario
     async new(email, password, name, role = 0) {
 
         try {
@@ -22,6 +24,7 @@ class User {
         }
     }
 
+    // encontrado emails iguais
     async findEmail(email) {
         try {
             // resultado sera um array de emails iguais
@@ -40,6 +43,45 @@ class User {
         } catch (err) {
             console.log(err)
             return false;
+        }
+    }
+
+    // encontrando todos os usuarios
+    async findAll() {
+        try {
+            var result = await knex("users")
+                .select(["id", "name", "email", "role"])
+
+            return result;
+
+
+        } catch (err) {
+            console.log(err)
+            return []
+        }
+    }
+
+    async findUserById(id) {
+        try {
+            // pesquisando no banco
+            var user = await knex("users")
+                .select(["id", "name", "email", "role"])
+                .where({ id })
+
+
+            if (user.length > 0) {
+                // se o usario for encontrado, é somente 1, pois o id é unico
+                // retorna um json
+                return user[0]
+
+            } else {
+                // usuario nao encontrado
+                return undefined
+            }
+
+        } catch (err) {
+            console.log(err)
+            return undefined
         }
     }
 

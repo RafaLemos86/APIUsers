@@ -1,9 +1,13 @@
 // controller responsavel de manipular os metodos do usuario
-var knex = require('../database/connection')
 var User = require('../models/User')
 
 class UserController {
-    async index(req, res) { }
+    async index(req, res) {
+
+        var allUsers = await User.findAll()
+        res.json(allUsers)
+
+    }
     // cadastrando usuario
     async create(req, res) {
         var { email, password, name } = req.body
@@ -40,6 +44,23 @@ class UserController {
         }
 
     };
+
+    async findUser(req, res) {
+        var id = req.params.id
+        var result = await User.findUserById(id)
+
+        // result encontrado
+        if (result) {
+            res.status(200)
+            res.json(result)
+            return
+        } else {
+            res.status(404)
+            res.json({})
+            return
+        }
+
+    }
 };
 
 
