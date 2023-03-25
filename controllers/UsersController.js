@@ -49,17 +49,40 @@ class UserController {
         var id = req.params.id
         var result = await User.findUserById(id)
 
-        // result encontrado
+        // usuario encontrado
         if (result) {
             res.status(200)
             res.json(result)
             return
+            // usuario nao encontrado
         } else {
             res.status(404)
             res.json({})
             return
         }
 
+    }
+
+    // update de usuário
+    async edit(req, res) {
+        // desestruturando os daods
+        var { id, name, email, role } = req.body
+
+        // fazendo o update
+        var result = await User.update(id, email, name, role)
+
+        // se deu certo
+        if (result.status) {
+
+            res.send("OK")
+            res.status(200)
+            return
+
+            // ocorreu um erro
+        } else {
+            res.send({ status: result.status, err: result.err })
+            res.status(406)
+        }
     }
 };
 
