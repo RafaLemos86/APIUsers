@@ -82,7 +82,29 @@ class UserController {
         } else {
             res.send({ status: result.status, err: result.err })
             res.status(406)
+            return
         }
+    };
+
+    async delete(req, res) {
+        // pegando id da URL
+        var id = req.params.id
+
+        // tentando deletar no banco
+        var result = await User._delete(id)
+
+        // deu tudo certo
+        if (result.status) {
+            res.status(200)
+            res.send("Usuário deletado")
+
+            return
+            // houve um erro
+        } else {
+            res.status(406)
+            res.send({ status: result.status, err: result.err })
+        }
+
     }
 };
 

@@ -86,6 +86,7 @@ class User {
         }
     };
 
+
     async update(id, email, name, role) {
         try {
             // procurando usuario
@@ -154,7 +155,32 @@ class User {
             return { status: false, err: err }
 
         }
-    }
+    };
+
+    // deletando um usuario
+    async _delete(id) {
+        // verificando se usuario existe
+        var user = await this.findUserById(id);
+
+        // se existir
+        if (user) {
+            // deletando no banco
+            try {
+                await knex("users")
+                    .delete()
+                    .where({ id })
+
+                return { status: true }
+
+                // ocorreu algum erro
+            } catch (err) {
+                return { status: false, err: err }
+            }
+            // usuario nao existe
+        } else {
+            return { status: false, err: "usuário não existe" }
+        }
+    };
 
 }
 

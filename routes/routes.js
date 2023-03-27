@@ -20,4 +20,7 @@ router.get("/user/:id", UserController.findUser)
 // update usuario
 router.put("/user", UserController.edit)
 
+// deletando usuário
+router.delete("/user/:id", UserController.delete)
+
 module.exports = router;
