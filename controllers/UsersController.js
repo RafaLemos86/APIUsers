@@ -122,9 +122,7 @@ class UserController {
             res.send(result)
             res.status(406)
         }
-
-
-    }
+    };
 };
 
 
