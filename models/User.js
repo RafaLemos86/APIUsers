@@ -86,6 +86,31 @@ class User {
         }
     };
 
+    // encontrando usuario pelo id
+    async findUserByEmail(email) {
+        try {
+            // pesquisando no banco
+            var user = await knex("users")
+                .select(["id", "name", "email", "role"])
+                .where({ email })
+
+
+            if (user.length > 0) {
+                // se o usario for encontrado, é somente 1, pois o id é unico
+                // retorna um json
+                return user[0]
+
+            } else {
+                // usuario nao encontrado
+                return undefined
+            }
+
+        } catch (err) {
+            console.log(err)
+            return undefined
+        }
+    };
+
 
     async update(id, email, name, role) {
         try {

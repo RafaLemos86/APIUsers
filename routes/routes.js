@@ -23,4 +23,6 @@ router.put("/user", UserController.edit)
 // deletando usuário
 router.delete("/user/:id", UserController.delete)
 
+router.post("/recovery", UserController.sendToken)
+
 module.exports = router;

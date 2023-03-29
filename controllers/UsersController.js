@@ -1,5 +1,6 @@
 // controller responsavel de manipular os metodos do usuario
 var User = require('../models/User')
+var recoverPassword = require("../models/recoveryPassword")
 
 class UserController {
     async index(req, res) {
@@ -104,6 +105,24 @@ class UserController {
             res.status(406)
             res.send({ status: result.status, err: result.err })
         }
+
+    };
+
+    async sendToken(req, res) {
+        var email = req.body.email
+
+        var result = await recoverPassword.create(email)
+
+        if (result.status) {
+            res.status(200)
+            res.send("" + result.token)
+            return
+
+        } else {
+            res.send(result)
+            res.status(406)
+        }
+
 
     }
 };
