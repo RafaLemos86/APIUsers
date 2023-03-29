@@ -25,4 +25,8 @@ router.delete("/user/:id", UserController.delete)
 
 router.post("/recovery", UserController.sendToken)
 
-module.exports = router;
+
+router.post("/change", UserController.changePassword)
+
+
+module.exports = router();
