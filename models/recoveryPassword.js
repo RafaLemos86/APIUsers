@@ -56,7 +56,20 @@ class recoverPassword {
         } catch (err) {
             return { status: false, err: err }
         }
+    };
 
+    async setUsed(id) {
+        try {
+            await knex("recoverypassword")
+                .update({
+                    used: 1
+                }).where({
+                    id
+                })
+            return { status: true }
+        } catch (err) {
+            return { status: false, err: err }
+        }
 
     }
 

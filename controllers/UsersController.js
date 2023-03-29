@@ -123,6 +123,23 @@ class UserController {
             res.status(406)
         }
     };
+
+    async changePassword(req, res) {
+        var { token, password } = req.body
+        var tokenValid = await recoverPassword.validate(token)
+
+
+        if (tokenValid.status) {
+            await User.changePassword(password, tokenValid.token.id_user, tokenValid.token.id)
+            res.status(200)
+            res.send("OK")
+            return
+        } else {
+            res.send(tokenValid)
+            res.status(406)
+            return
+        }
+    }
 };
 
 
