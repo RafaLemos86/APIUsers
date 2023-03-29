@@ -208,13 +208,17 @@ class User {
         }
     };
 
+    // mudando a senha id_user é o id da tabela user, id_token é o id da tabela de recuperacao
     async changePassword(newPassword, id_user, id_token) {
+        // fazendo o hash da nova senha
         var hash = await bcrypt.hash(newPassword, 10)
 
+        // inserindo no banco
         await knex("users")
             .update({ password: hash })
             .where({ id: id_user })
 
+        // setando token como usado
         await passwordToken.setUsed(id_token)
 
 

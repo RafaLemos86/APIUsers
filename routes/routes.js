@@ -1,12 +1,13 @@
 var express = require("express")
 var router = express.Router();
 var HomeController = require("../controllers/HomeController");
-
 var UserController = require('../controllers/UsersController')
 
+var adminAuth = require("../middleware/adminAuth")
 
 
-router.get('/', HomeController.index);
+// rota de listagem de usuarios
+router.get('/', adminAuth, HomeController.index);
 
 // rota para criacao de user
 router.post('/user', UserController.create)
