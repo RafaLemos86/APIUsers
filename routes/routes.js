@@ -23,8 +23,13 @@ router.put("/user", UserController.edit)
 // deletando usuário
 router.delete("/user/:id", UserController.delete)
 
+// enviando token de recuperacao
 router.post("/recovery", UserController.sendToken)
 
+// mudando senha
 router.post("/change", UserController.changePassword)
+
+// login
+router.post("/login", UserController.login)
 
 module.exports = router;

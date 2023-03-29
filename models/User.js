@@ -92,7 +92,7 @@ class User {
         try {
             // pesquisando no banco
             var user = await knex("users")
-                .select(["id", "name", "email", "role"])
+                .select("*")
                 .where({ email })
 
 

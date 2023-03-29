@@ -1,6 +1,9 @@
 // controller responsavel de manipular os metodos do usuario
 var User = require('../models/User')
 var recoverPassword = require("../models/recoveryPassword")
+var jwt = require("jsonwebtoken")
+var bcrypt = require("bcrypt")
+const secret = "StringAleatoria10%"
 
 class UserController {
     async index(req, res) {
@@ -139,7 +142,30 @@ class UserController {
             res.status(406)
             return
         }
-    }
+    };
+
+    async login(req, res) {
+        var { email, password } = req.body
+        var user = await User.findUserByEmail(email)
+
+        if (user) {
+            var corretPassword = await bcrypt.compare(password, user.password)
+            if (corretPassword) {
+                var token = jwt.sign({ email: user.email, role: user.role }, secret)
+                res.status(200)
+                res.send({ status: true, token })
+
+
+            } else {
+                res.status(202)
+                res.send({ status: false, err: "Senha incorreta" })
+            }
+
+        } else {
+            res.status(406)
+            res.send({ status: false, err: "usuário não encontrado" })
+        }
+    };
 };
 
 
