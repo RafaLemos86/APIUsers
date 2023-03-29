@@ -1,5 +1,6 @@
 // controller responsavel de manipular os metodos do usuario
-var User = require('../models/User')
+const User = require('../models/User')
+const passwordToken = require("../models/passwordToken")
 
 class UserController {
     async index(req, res) {
@@ -105,6 +106,36 @@ class UserController {
             res.send({ status: result.status, err: result.err })
         }
 
+    };
+
+    async sendToken(req, res) {
+        var email = req.body.email
+
+        var result = await passwordToken.create(email)
+
+        if (result.status) {
+            res.status(200)
+            res.send(result)
+        } else {
+            res.status(406)
+            res.send(result)
+        }
+
+    };
+
+    async changePassword(req, res) {
+        var { token, newPassword } = req.body;
+        var result = await passwordToken.isValid(token)
+
+        if (result.status) {
+            await User.changePassword(newPassword, result.token.id_user, result.token.id)
+            res.send("OK")
+            res.status(200)
+            return
+        } else {
+            res.status(406)
+            res.send(result)
+        }
     }
 };
 
